@@ -1,22 +1,102 @@
-<input id="username" placeholder="Twitch username">
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<button onclick="loadStream()">Watch</button>
+    <title>Twitch Stream Viewer</title>
 
-<div id="stream"></div>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #18181b;
+            color: white;
+            text-align: center;
+            margin: 0;
+            padding: 30px;
+        }
 
-<script>
-function loadStream() {
-    const username = document.getElementById("username").value.trim();
+        input {
+            padding: 12px;
+            width: 250px;
+            font-size: 16px;
+            border-radius: 6px;
+            border: none;
+        }
 
-    if (!username) return;
+        button {
+            padding: 12px 20px;
+            font-size: 16px;
+            margin-left: 5px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+        }
 
-    document.getElementById("stream").innerHTML = `
-        <iframe
-            src="https://player.twitch.tv/?channel=${encodeURIComponent(username)}&parent=itdude207.github.com"
-            width="100%"
-            height="600"
-            allowfullscreen>
-        </iframe>
-    `;
-}
-</script>
+        #stream {
+            margin: 30px auto;
+            max-width: 1000px;
+        }
+
+        iframe {
+            width: 100%;
+            height: 600px;
+            border: none;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>Twitch Stream Viewer</h1>
+
+    <input
+        id="username"
+        type="text"
+        placeholder="Enter Twitch username"
+    >
+
+    <button onclick="loadStream()">Watch</button>
+
+    <div id="stream"></div>
+
+    <script>
+        function loadStream() {
+            const username = document
+                .getElementById("username")
+                .value
+                .trim();
+
+            if (!username) {
+                alert("Enter a Twitch username!");
+                return;
+            }
+
+            /*
+             * IMPORTANT:
+             * Change this to the domain where this HTML file is hosted.
+             */
+
+            const parent = window.location.hostname;
+
+            const iframe = document.createElement("iframe");
+
+            iframe.src =
+                "https://player.twitch.tv/" +
+                "?channel=" + encodeURIComponent(username) +
+                "&parent=" + encodeURIComponent(parent) +
+                "&muted=true";
+
+            iframe.allowFullscreen = true;
+
+            const stream = document.getElementById("stream");
+
+            stream.innerHTML = "";
+            stream.appendChild(iframe);
+        }
+    </script>
+
+</body>
+</html>
+```
